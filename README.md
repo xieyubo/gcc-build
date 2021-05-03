@@ -5,8 +5,8 @@
 Run the following command to build gcc-11/aarch64-gcc-11:
 
     cd amd64/gcc-11-ubuntu-20.04
-    docker build -t gcc-11:ubuntu-20.04 --build-arg Gcc11Version=11.1.0 --build-arg BuildVersion=0 .
-    docker run --rm --entrypoint cat gcc-11:ubuntu-20.04 /gcc-11.1.0-0-ubuntu-20.04.deb > /tmp/gcc-11.1.0-0-ubuntu-20.04.deb
+    docker build -t gcc-11:ubuntu-20.04 .
+    docker run --rm --entrypoint cat gcc-11:ubuntu-20.04 /gcc-11.1.0-1-ubuntu-20.04.deb > /tmp/gcc-11.1.0-1-ubuntu-20.04.deb
 
 Now you can install it:
 
