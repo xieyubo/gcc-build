@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
-ARG Gcc11Version
-ARG BuildVersion
+ARG Gcc11Version=11.1.0
+ARG BuildVersion=1
 
 # Download gcc source code
 RUN apt update && apt install -y wget build-essential flex libz-dev libzstd-dev
@@ -50,6 +50,8 @@ RUN /gcc-$Gcc11Version/configure \
     --enable-link-serialization=2
 RUN make -j`nproc`
 RUN make install-strip DESTDIR=/gcc-$Gcc11Version-$BuildVersion-ubuntu-20.04
+RUN mkdir -p /gcc-$Gcc11Version-$BuildVersion-ubuntu-20.04/usr/share/gdb/auto-load/usr/lib64 && \
+    mv /gcc-$Gcc11Version-$BuildVersion-ubuntu-20.04/usr/lib64/libstdc++.so.6.0.29-gdb.py /gcc-$Gcc11Version-$BuildVersion-ubuntu-20.04/usr/share/gdb/auto-load/usr/lib64/libstdc++.so.6.0.29-gdb.py
 
 # Build aarch64-gcc-11
 RUN apt install -y g++-aarch64-linux-gnu
@@ -92,6 +94,8 @@ RUN /gcc-$Gcc11Version/configure \
     --enable-link-serialization=2
 RUN make -j`nproc`
 RUN make install-strip DESTDIR=/gcc-$Gcc11Version-$BuildVersion-ubuntu-20.04
+RUN mkdir -p /gcc-$Gcc11Version-$BuildVersion-ubuntu-20.04/usr/share/gdb/auto-load/usr/aarch64-linux-gnu/lib64 && \
+    mv /gcc-$Gcc11Version-$BuildVersion-ubuntu-20.04/usr/aarch64-linux-gnu/lib64/libstdc++.so.6.0.29-gdb.py /gcc-$Gcc11Version-$BuildVersion-ubuntu-20.04/usr/share/gdb/auto-load/usr/aarch64-linux-gnu/lib64/libstdc++.so.6.0.29-gdb.py
 
 # Generate deb
 WORKDIR /
