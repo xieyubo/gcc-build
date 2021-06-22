@@ -1,7 +1,10 @@
-FROM ubuntu:20.04
+ARG UbuntuVersion=20.04
 
+FROM ubuntu:$UbuntuVersion
+
+ARG UbuntuVersion=20.04
 ARG Gcc11Version=11.1.0
-ARG BuildVersion=1
+ARG BuildVersion=2
 
 # Download gcc source code
 RUN apt update && apt install -y wget build-essential flex libz-dev libzstd-dev
@@ -49,9 +52,9 @@ RUN /gcc-$Gcc11Version/configure \
     --with-build-config=bootstrap-lto-lean \
     --enable-link-serialization=2
 RUN make -j`nproc`
-RUN make install-strip DESTDIR=/gcc-$Gcc11Version-$BuildVersion-ubuntu-20.04
-RUN mkdir -p /gcc-$Gcc11Version-$BuildVersion-ubuntu-20.04/usr/share/gdb/auto-load/usr/lib64 && \
-    mv /gcc-$Gcc11Version-$BuildVersion-ubuntu-20.04/usr/lib64/libstdc++.so.6.0.29-gdb.py /gcc-$Gcc11Version-$BuildVersion-ubuntu-20.04/usr/share/gdb/auto-load/usr/lib64/libstdc++.so.6.0.29-gdb.py
+RUN make install-strip DESTDIR=/gcc-$Gcc11Version-$BuildVersion-ubuntu-$UbuntuVersion
+RUN mkdir -p /gcc-$Gcc11Version-$BuildVersion-ubuntu-$UbuntuVersion/usr/share/gdb/auto-load/usr/lib64 && \
+    mv /gcc-$Gcc11Version-$BuildVersion-ubuntu-$UbuntuVersion/usr/lib64/libstdc++.so.6.0.29-gdb.py /gcc-$Gcc11Version-$BuildVersion-ubuntu-$UbuntuVersion/usr/share/gdb/auto-load/usr/lib64/libstdc++.so.6.0.29-gdb.py
 
 # Build aarch64-gcc-11
 RUN apt install -y g++-aarch64-linux-gnu
@@ -93,13 +96,13 @@ RUN /gcc-$Gcc11Version/configure \
     --with-build-config=bootstrap-lto-lean \
     --enable-link-serialization=2
 RUN make -j`nproc`
-RUN make install-strip DESTDIR=/gcc-$Gcc11Version-$BuildVersion-ubuntu-20.04
-RUN mkdir -p /gcc-$Gcc11Version-$BuildVersion-ubuntu-20.04/usr/share/gdb/auto-load/usr/aarch64-linux-gnu/lib64 && \
-    mv /gcc-$Gcc11Version-$BuildVersion-ubuntu-20.04/usr/aarch64-linux-gnu/lib64/libstdc++.so.6.0.29-gdb.py /gcc-$Gcc11Version-$BuildVersion-ubuntu-20.04/usr/share/gdb/auto-load/usr/aarch64-linux-gnu/lib64/libstdc++.so.6.0.29-gdb.py
+RUN make install-strip DESTDIR=/gcc-$Gcc11Version-$BuildVersion-ubuntu-$UbuntuVersion
+RUN mkdir -p /gcc-$Gcc11Version-$BuildVersion-ubuntu-$UbuntuVersion/usr/share/gdb/auto-load/usr/aarch64-linux-gnu/lib64 && \
+    mv /gcc-$Gcc11Version-$BuildVersion-ubuntu-$UbuntuVersion/usr/aarch64-linux-gnu/lib64/libstdc++.so.6.0.29-gdb.py /gcc-$Gcc11Version-$BuildVersion-ubuntu-$UbuntuVersion/usr/share/gdb/auto-load/usr/aarch64-linux-gnu/lib64/libstdc++.so.6.0.29-gdb.py
 
 # Generate deb
 WORKDIR /
 COPY DEBIAN/control.m4 /
-RUN mkdir /gcc-$Gcc11Version-$BuildVersion-ubuntu-20.04/DEBIAN
-RUN m4 -P -DVERSION=$Gcc11Version-$BuildVersion control.m4 > /gcc-$Gcc11Version-$BuildVersion-ubuntu-20.04/DEBIAN/control
-RUN dpkg-deb --build --root-owner-group /gcc-$Gcc11Version-$BuildVersion-ubuntu-20.04
+RUN mkdir /gcc-$Gcc11Version-$BuildVersion-ubuntu-$UbuntuVersion/DEBIAN
+RUN m4 -P -DUBUNTUVERSION=$UbuntuVersion -DVERSION=$Gcc11Version-$BuildVersion control.m4 > /gcc-$Gcc11Version-$BuildVersion-ubuntu-$UbuntuVersion/DEBIAN/control
+RUN dpkg-deb --build --root-owner-group /gcc-$Gcc11Version-$BuildVersion-ubuntu-$UbuntuVersion
