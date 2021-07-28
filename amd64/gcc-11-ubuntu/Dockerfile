@@ -3,8 +3,8 @@ ARG UbuntuVersion=20.04
 FROM ubuntu:$UbuntuVersion
 
 ARG UbuntuVersion=20.04
-ARG Gcc11Version=11.1.0
-ARG BuildVersion=2
+ARG Gcc11Version=11.2.0
+ARG BuildVersion=1
 
 # Download gcc source code
 RUN apt update && apt install -y wget build-essential flex libz-dev libzstd-dev

@@ -5,22 +5,22 @@
 Run the following command to build gcc-11/aarch64-gcc-11:
 
     cd amd64/gcc-11-ubuntu
-    docker build -t gcc-11:ubuntu-20.04 --build-arg UbuntuVersion=20.04 .
-    docker run --rm --entrypoint cat gcc-11:ubuntu-20.04 /gcc-11.1.0-2-ubuntu-20.04.deb > /tmp/gcc-11.1.0-2-ubuntu-20.04.deb
+    docker build -t gcc-11.2:ubuntu-20.04 --build-arg UbuntuVersion=20.04 .
+    docker run --rm --entrypoint cat gcc-11.2:ubuntu-20.04 /gcc-11.2.0-1-ubuntu-20.04.deb > /tmp/gcc-11.2.0-1-ubuntu-20.04.deb
 
 ## Build gcc-11/aarch64-gcc-11 for Ubuntu 18.04
 
 Run the following command to build gcc-11/aarch64-gcc-11:
 
     cd amd64/gcc-11-ubuntu
-    docker build -t gcc-11:ubuntu-18.04 --build-arg UbuntuVersion=18.04 .
-    docker run --rm --entrypoint cat gcc-11:ubuntu-18.04 /gcc-11.1.0-2-ubuntu-18.04.deb > /tmp/gcc-11.1.0-2-ubuntu-18.04.deb
+    docker build -t gcc-11.2:ubuntu-18.04 --build-arg UbuntuVersion=18.04 .
+    docker run --rm --entrypoint cat gcc-11.2:ubuntu-18.04 /gcc-11.2.0-1-ubuntu-18.04.deb > /tmp/gcc-11.2.0-1-ubuntu-18.04.deb
 
 ## Install
 
 Now you can install it:
 
-    sudo apt install -y /tmp/gcc-11.1.0-2-ubuntu-20.04.deb
+    sudo apt install -y /tmp/gcc-11.2.0-1-ubuntu-20.04.deb
 
 Set gcc-11/aarch64-gcc-11 as high priority:
 
