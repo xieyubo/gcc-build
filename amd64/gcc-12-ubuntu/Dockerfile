@@ -2,18 +2,20 @@ ARG UbuntuVersion=20.04
 
 FROM ubuntu:$UbuntuVersion
 
-ARG Gcc12Version=12.1.0
+RUN apt update && apt install -y wget build-essential file flex libz-dev libzstd-dev
 
 # Download gcc source code
-RUN apt update && apt install -y wget build-essential file flex libz-dev libzstd-dev
+ARG Gcc12Version=12.1.0
 RUN wget https://gcc.gnu.org/pub/gcc/releases/gcc-$Gcc12Version/gcc-$Gcc12Version.tar.gz
 RUN tar xf gcc-$Gcc12Version.tar.gz
 RUN cd /gcc-$Gcc12Version && ./contrib/download_prerequisites
 
 # Build x86_64-gcc-12
+ARG BuildVersion=1
 RUN mkdir /x86_64-gcc-12
 WORKDIR /x86_64-gcc-12
 RUN /gcc-$Gcc12Version/configure \
+    --with-pkgversion="xyb-build-$BuildVersion https://github.com/xieyubo/gcc-build" \
     --enable-languages=c,c++ \
     --prefix=/usr \
     --with-gcc-major-version-only \
@@ -26,6 +28,7 @@ RUN /gcc-$Gcc12Version/configure \
     --libdir=/usr/lib \
     --disable-nls \
     --enable-clocale=gnu \
+    --enable-libstdcxx-backtrace=yes \
     --enable-libstdcxx-debug \
     --enable-libstdcxx-time=yes \
     --with-default-libstdcxx-abi=new \
@@ -48,7 +51,6 @@ RUN /gcc-$Gcc12Version/configure \
     --target=x86_64-linux-gnu
 RUN make -j`nproc`
 
-ARG BuildVersion=1
 ARG UbuntuVersion=20.04
 
 RUN make install-strip DESTDIR=/gcc-$Gcc12Version-$BuildVersion-ubuntu-$UbuntuVersion
