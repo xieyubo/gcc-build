@@ -5,7 +5,7 @@ FROM ubuntu:$UbuntuVersion
 RUN apt update && apt install -y wget build-essential file flex libz-dev libzstd-dev
 
 # Download gcc source code
-ARG Gcc12Version=12.1.0
+ARG Gcc12Version=12.2.0
 RUN wget https://gcc.gnu.org/pub/gcc/releases/gcc-$Gcc12Version/gcc-$Gcc12Version.tar.gz
 RUN tar xf gcc-$Gcc12Version.tar.gz
 RUN cd /gcc-$Gcc12Version && ./contrib/download_prerequisites

@@ -7,14 +7,14 @@
 Run the following command to build gcc-12/amd64:
 
     cd amd64/gcc-12-ubuntu
-    docker build -t gcc-12.1.0:ubuntu-20.04 .
-    docker run --rm --entrypoint cat gcc-12.1.0:ubuntu-20.04 /gcc-12.1.0-1-ubuntu-20.04.deb > /tmp/gcc-12.1.0-1-ubuntu-20.04.deb
+    docker build -t gcc-12.2.0:ubuntu-20.04 .
+    docker run --rm --entrypoint cat gcc-12.2.0:ubuntu-20.04 /gcc-12.2.0-1-ubuntu-20.04.deb > /tmp/gcc-12.2.0-1-ubuntu-20.04.deb
 
 ### Install
 
 Now you can install it:
 
-    sudo apt install -y /tmp/gcc-12.1.0-1-ubuntu-20.04.deb
+    sudo apt install -y /tmp/gcc-12.2.0-1-ubuntu-20.04.deb
 
 Set gcc-12 as high priority:
 
